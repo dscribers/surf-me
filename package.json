@@ -1,6 +1,6 @@
 {
   "name": "@dscribers/surf-me",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "TestSuite JS SDK",
   "rollup": {
     "main": "dist/surf-me.js",
