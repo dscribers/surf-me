@@ -1,16 +1,16 @@
 {
-  "name": "library",
+  "name": "@dscribers/surf-me",
   "version": "0.0.0",
-  "description": "A short description of the library",
+  "description": "TestSuite JS SDK",
   "rollup": {
-    "main": "dist/library.js",
-    "module": "dist/library.es.js",
-    "browser": "dist/library.min.js"
+    "main": "dist/surf-me.js",
+    "module": "dist/surf-me.es.js",
+    "browser": "dist/surf-me.min.js"
   },
-  "repository": "https://github.com/ezra-obiwale/npm-library",
+  "repository": "https://github.com/dscribers/surf-me",
   "author": "Ezra Obiwale",
   "license": "MIT",
-  "main": "dist/library.es.js",
+  "main": "dist/surf-me.es.js",
   "devDependencies": {
     "@babel/core": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
@@ -25,5 +25,7 @@
     "build": "rollup -c",
     "build:watch": "rollup -cw"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@dscribers/autosurf": "^0.2.0"
+  }
 }

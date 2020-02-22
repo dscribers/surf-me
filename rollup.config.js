@@ -4,12 +4,6 @@ import babel from 'rollup-plugin-babel'
 import { terser } from 'rollup-plugin-terser'
 import pkg from './package.json'
 
-let name = pkg.name.replace(/[^a-z\/]/gi, '')
-
-if (name.index('/') !== -1) {
-  name = name.split('/')[1]
-}
-
 export default {
   input: 'src/index.js',
   output: [
@@ -24,7 +18,7 @@ export default {
     {
       file: pkg.rollup.browser,
       format: 'iife',
-      name: name
+      name: pkg.name.replace(/[^a-z][a-z]/gi, str => str[1].toUpperCase())
     }
   ],
   plugins: [
@@ -33,6 +27,6 @@ export default {
     babel({
       exclude: 'node_modules/**' // only transpile our source code
     }),
-    terser()
+    // terser()
   ]
 }
