@@ -709,9 +709,9 @@
     to-fast-properties "^2.0.0"
 
 "@dscribers/autosurf@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@dscribers/autosurf/-/autosurf-0.2.0.tgz#237d42fb41a9fb63a0634092e71caffc93037cc5"
-  integrity sha512-wpQVZrI0iVhWcIOl643HhzzEUwXa1r2u75pNkT/G3jObtlydIeRcLLB3EPs52OK2QqxRkVZSqxLpON5wwLld0A==
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@dscribers/autosurf/-/autosurf-0.2.1.tgz#63a8329a664a10e5b611ffc71fbf1e658dd73b92"
+  integrity sha512-o8OK4shqkmaJeHNrKhmFLq9PwHPC3BSnxDQktqCl8M6ad5yuM3hOv0f6QybDLOvFcazpL3fUQqcbuZ0udrMmqw==
 
 "@rollup/plugin-commonjs@^11.0.1":
   version "11.0.1"
