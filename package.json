@@ -26,6 +26,6 @@
     "build:watch": "rollup -cw"
   },
   "dependencies": {
-    "@dscribers/autosurf": "^0.2.0"
+    "@dscribers/autosurf": "^0.3.0"
   }
 }
