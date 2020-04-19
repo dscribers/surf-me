@@ -708,10 +708,10 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@dscribers/autosurf@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@dscribers/autosurf/-/autosurf-0.3.0.tgz#1a1f29ce4185691119cd624e5cd548839aac36b8"
-  integrity sha512-nBlJa4xYbP5S5BcR0FwaL7nrcJg5gKj4nmXvlUCUkimCoHMVBm81Z5Mfcc77G99H6DLJuNpKIyh7Ryccx9eEKA==
+"@dscribers/autosurf@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@dscribers/autosurf/-/autosurf-1.0.0.tgz#ab7a98b3a303f450e97c3e968f1b75cc3f4f2a3f"
+  integrity sha512-xDi1TqD1wtPzl4/0bzKc6IAXSlL4XpFilutpZt3YPftzqp8duJyfA7I0MWWlrxrTAqCLEB5D0dx7iSb6LVdV/A==
 
 "@rollup/plugin-commonjs@^11.0.1":
   version "11.0.1"
