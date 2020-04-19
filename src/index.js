@@ -14,9 +14,9 @@ if (window.parent !== window) {
     })
 
   function receivedCommand({ data = {} }) {
-    if ($surfer.hasOwnProperty(data.name)) {
+    try {
       $surfer[data.name](data.detail)
-    }
+    } catch (e) {}
   }
 
   window.addEventListener('message', receivedCommand, false)
