@@ -1,6 +1,8 @@
+import AutoSurf from '@dscribers/autosurf'
+
 // in an iframe
 if (window.parent !== window) {
-  const $surfer = new require('@dscribers/autosurf')()
+  const $surfer = new AutoSurf()
 
   $surfer
     .on('*', function (event) {
