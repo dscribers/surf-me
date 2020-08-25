@@ -1,6 +1,6 @@
 {
   "name": "@dscribers/surf-me",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "TestSuite JS SDK",
   "rollup": {
     "main": "dist/surf-me.js",
@@ -14,6 +14,7 @@
   "devDependencies": {
     "@babel/core": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
+    "@dscribers/autosurf": "^1.0.0",
     "@rollup/plugin-commonjs": "^11.0.1",
     "@rollup/plugin-multi-entry": "^3.0.0",
     "@rollup/plugin-node-resolve": "^7.0.0",
@@ -24,8 +25,5 @@
   "scripts": {
     "build": "rollup -c",
     "build:watch": "rollup -cw"
-  },
-  "dependencies": {
-    "@dscribers/autosurf": "^1.0.0"
   }
 }
