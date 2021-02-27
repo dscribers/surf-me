@@ -1,6 +1,6 @@
 {
   "name": "@dscribers/surf-me",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "TestSuite JS SDK",
   "rollup": {
     "main": "dist/surf-me.js",
@@ -11,6 +11,7 @@
   "author": "Ezra Obiwale",
   "license": "MIT",
   "main": "dist/surf-me.es.js",
+  "browser": "dist/surf-me.min.js",
   "devDependencies": {
     "@babel/core": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
