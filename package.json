@@ -1,7 +1,7 @@
 {
   "name": "@dscribers/surf-me",
-  "version": "1.2.1",
-  "description": "TestSuite JS SDK",
+  "version": "1.2.2",
+  "description": "TestSoothe JS SDK",
   "rollup": {
     "main": "dist/surf-me.js",
     "module": "dist/surf-me.es.js",
@@ -15,7 +15,8 @@
   "devDependencies": {
     "@babel/core": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
-    "@dscribers/autosurf": "^1.0.0",
+    "@dscribers/autosurf": "^2.0.0",
+    "@dscribers/websurf-adapter": "^1.0.0",
     "@rollup/plugin-commonjs": "^11.0.1",
     "@rollup/plugin-multi-entry": "^3.0.0",
     "@rollup/plugin-node-resolve": "^7.0.0",

@@ -1,8 +1,9 @@
 import AutoSurf from '@dscribers/autosurf'
+import WebSurf from '@dscribers/websurf-adapter'
 
 // in an iframe
 if (window.parent !== window) {
-  const $surfer = new AutoSurf()
+  const $surfer = new AutoSurf(new WebSurf())
 
   $surfer
     .on('*', function (event) {
@@ -18,7 +19,9 @@ if (window.parent !== window) {
   function receivedCommand({ data = {} }) {
     try {
       $surfer[data.name](data.detail)
-    } catch (e) {}
+    } catch (e) {
+      console.error(e.message, data)
+    }
   }
 
   window.addEventListener('message', receivedCommand, false)

@@ -12,4 +12,4 @@ The in-browser auto-surf runner.
 ></script>
 ```
 
-2. Load the page from TestSuite.
+2. Load the page from TestSoothe.

@@ -828,10 +828,17 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
-"@dscribers/autosurf@^1.0.0":
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/@dscribers/autosurf/-/autosurf-1.5.1.tgz#f28942a77a33dbfaf0701dfc57f493a20a8768b0"
-  integrity sha512-vBDijPcM2QAcl06IruiZMlkdozRcR1djzOmjOrQjLHOvyXXDFAN5I/c8XEViJrZZ5li/78a9o8iuDNZ5EKZMcQ==
+"@dscribers/autosurf@^2.0.0":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@dscribers/autosurf/-/autosurf-2.0.1.tgz#9e0e7b7b54b46d270833f6608cb959065296d516"
+  integrity sha512-oPq6N0njsEiuVj9UIMB9+lrNOJB+cvOTyY5gVArZCMt5TE3Qukrev3Q9ivZQ/ViyUUKMxP9v6Jb6gw0Jt3W32g==
+
+"@dscribers/websurf-adapter@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@dscribers/websurf-adapter/-/websurf-adapter-1.0.0.tgz#bd57e16d01117781b0a1024629ec3cfcd96bcbbb"
+  integrity sha512-mubKhTlFvymydmLT7TRfu+B3rrkyR4wQPOkNlJHO5OwOcZS6dhmNphGWinF5PghqzdRmNpJwKD5/kqWbSAzjwg==
+  dependencies:
+    "@dscribers/autosurf" "^2.0.0"
 
 "@rollup/plugin-commonjs@^11.0.1":
   version "11.1.0"
