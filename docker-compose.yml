@@ -2,6 +2,7 @@
 version: "3.7"
 services:
   surf-me:
+    image: dscribe/surf-me
     build:
       context: .
       target: "develop-stage"

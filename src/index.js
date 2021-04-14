@@ -1,5 +1,5 @@
 import AutoSurf from '@dscribers/autosurf'
-import WebSurf from '@dscribers/websurf-adapter'
+import WebSurf from '@dscribers/autosurf-websurf-adapter'
 
 // in an iframe
 if (window.parent !== window) {
