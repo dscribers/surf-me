@@ -832,9 +832,9 @@
     to-fast-properties "^2.0.0"
 
 "@dscribers/autosurf-websurf-adapter@^1.1.1":
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/@dscribers/autosurf-websurf-adapter/-/autosurf-websurf-adapter-1.1.6.tgz#63f41e27bf986f424e36ad99f245721be11bad07"
-  integrity sha512-xS/H4kFJNCog+1if/qazR6N7s8tqV0IIKO0hHCkdWjZsCn8Qh7OWL6HgVcsOazBPMjTzZuWyfwjXflWEZqtIGQ==
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/@dscribers/autosurf-websurf-adapter/-/autosurf-websurf-adapter-1.1.8.tgz#8b4d03c7c9462ec84c1596df0284f36a8fba1411"
+  integrity sha512-SyEO8o4DKx/Beg3vYyGd+ogFN5PCajOHrF/CuFpdGvFlM4xuoN91snShpVmPICdyAW3bkJLv2S97a5Wy9MZCpw==
   dependencies:
     "@dscribers/autosurf" "^2.0.0"
     serialize-javascript "^5.0.1"
