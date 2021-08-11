@@ -1,22 +1,28 @@
 import AutoSurf from '@dscribers/autosurf'
 import WebSurf from '@dscribers/autosurf-websurf-adapter'
 
+// @todo: change * to https://app.testsuite.com
+const targetOrigin = '*'
+
 // in an iframe
 if (window.parent !== window) {
   const $surfer = new AutoSurf(new WebSurf())
 
   $surfer
     .on('*', function (event) {
-      window.parent.postMessage(event, '*')
+      window.parent.postMessage(event, targetOrigin)
     })
     .ready((isNotNew) => {
       if (!isNotNew) {
-        // @todo: change * to testsuite live site origin
-        window.parent.postMessage({ name: 'ready' }, '*')
+        window.parent.postMessage({ name: 'ready' }, targetOrigin)
       }
     })
 
-  function receivedCommand({ data = {} }) {
+  function receivedCommand ({ data = {}, origin }) {
+    if (targetOrigin !== '*' && origin !== targetOrigin) {
+      return
+    }
+
     try {
       $surfer[data.name](data.detail)
     } catch (e) {
