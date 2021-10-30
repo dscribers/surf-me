@@ -25,9 +25,7 @@ if (window.parent !== window) {
 
     try {
       $surfer[data.name](data.detail)
-    } catch (e) {
-      console.error(e.message, data)
-    }
+    } catch (e) {}
   }
 
   window.addEventListener('message', receivedCommand, false)
