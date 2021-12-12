@@ -877,17 +877,17 @@
     to-fast-properties "^2.0.0"
 
 "@dscribers/autosurf-websurf-adapter@^1.1.1":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@dscribers/autosurf-websurf-adapter/-/autosurf-websurf-adapter-1.2.2.tgz#eef65fe436683dae3b3380841b6011d8cb83c435"
-  integrity sha512-X0Qq/p+HseYSqYPNaf/OurRv9RkJQq3EE9dN8H7of6MgymIY9vm4jzX3QOknXhbsB93jyrnBdYft3BCsHOychQ==
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/@dscribers/autosurf-websurf-adapter/-/autosurf-websurf-adapter-1.3.2.tgz#f988013432cb88a7f4c128fb4c0c46d62ef6e3e7"
+  integrity sha512-diidloqAtyvvg4SYlVgZKiTTEvIeYPZSd0b5zpFjoyKzsyigX2cq6JrpjflpOvUcd1hWliHm3SiM+6DxJ72XEw==
   dependencies:
     "@dscribers/autosurf" "^2.0.0"
     serialize-javascript "^5.0.1"
 
 "@dscribers/autosurf@^2.0.0":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@dscribers/autosurf/-/autosurf-2.1.1.tgz#0e6140151cae5b64d72ef86514d4c93eced231e8"
-  integrity sha512-G9N3HQAk3lJpAvvDvi3ly44PQRfsimlbYzdTv5qzvIrgQUNGw4EpKBpXMDEdSPR54BxdlZTQpnyZxsIfx2U5lw==
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@dscribers/autosurf/-/autosurf-2.2.0.tgz#4292bc7f23b4810e2be78a18629d21c05a220c7c"
+  integrity sha512-nD48arc4cnaXYYi9ZKUm+g6znSGg3n3DmhQ78B+Vpe1LTgMWKMnwEQ4eP1vKPu3p7qe2aI8DjCCxk8sDbLqPJg==
 
 "@rollup/plugin-commonjs@^11.0.1":
   version "11.1.0"
@@ -1117,9 +1117,9 @@ define-properties@^1.1.3:
     object-keys "^1.0.12"
 
 electron-to-chromium@^1.3.896:
-  version "1.4.15"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.15.tgz#4bd144d9d13f8b375c65e1a593e7f4a90bd01b90"
-  integrity sha512-WDw2IUL3k4QpbzInV3JZK+Zd1NjWJPDZ28oUSchWb/kf6AVj7/niaAlgcJlvojFa1d7pJSyQ/KSZsEtq5W7aGQ==
+  version "1.4.16"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.16.tgz#38ddecc616385e6f101359d1b978c802664157d2"
+  integrity sha512-BQb7FgYwnu6haWLU63/CdVW+9xhmHls3RCQUFiV4lvw3wimEHTVcUk2hkuZo76QhR8nnDdfZE7evJIZqijwPdA==
 
 escalade@^3.1.1:
   version "3.1.1"
