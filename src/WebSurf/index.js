@@ -53,8 +53,7 @@ export default class WebSurf {
    * @inheritdoc
    */
   checkIsOn (url) {
-    const regExp = new RegExp(`(\\?|&)${this.#cacheBreakerWrapper}.*${this.#cacheBreakerWrapper}/`)
-
+    const regExp = new RegExp(`(\\?|&)${this.#cacheBreakerWrapper}.*${this.#cacheBreakerWrapper}`)
     const cleanLocationHref = document.location.href.replace(regExp, '')
 
     this.#checked(cleanLocationHref === url)
@@ -116,6 +115,10 @@ export default class WebSurf {
           return false
         }
       })
+    }
+
+    if (contains) {
+      return this.checkElementIs(selector, 'visible')
     }
 
     this.#checked(contains)
