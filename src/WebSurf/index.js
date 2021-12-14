@@ -1,13 +1,11 @@
 import Surfer from './Surfer'
 
-export default class WebSurf extends BaseAdapter {
+export default class WebSurf {
   #cacheBreakerWrapper = '__RNR__'
   #cacheBreaker = null
   #notify = () => { }
 
   constructor() {
-    super()
-
     this.#cacheBreaker = this.#cacheBreakerWrapper + Date.now() + this.#cacheBreakerWrapper
   }
 
@@ -17,18 +15,30 @@ export default class WebSurf extends BaseAdapter {
    * @inheritdoc
    */
   checkAttrContains (selector, attr, text) {
+    const item = new Surfer(selector)
+
+    if (!item.length) {
+      return this.#done('Element not found')
+    }
+
     this.#focus(selector)
 
-    const it = new Surfer(selector).attr(attr) || ''
-    this.#checked(it.includes(text))
+    this.#checked((item.attr(attr) || '').includes(text))
   }
 
   /**
    * @inheritdoc
    */
   checkAttrIs (selector, attr, val) {
+    const item = new Surfer(selector)
+
+    if (!item.length) {
+      return this.#done('Element not found')
+    }
+
     this.#focus(selector)
-    this.#checked(new Surfer(selector).attr(attr) == val)
+
+    this.#checked(item.attr(attr) == val)
   }
 
   /**
@@ -43,7 +53,7 @@ export default class WebSurf extends BaseAdapter {
    * @inheritdoc
    */
   checkIsOn (url) {
-    const regExp = new RegExp(`(\?|\&)${this.#cacheBreakerWrapper}.*${this.#cacheBreakerWrapper}/`)
+    const regExp = new RegExp(`(\\?|&)${this.#cacheBreakerWrapper}.*${this.#cacheBreakerWrapper}/`)
 
     const cleanLocationHref = document.location.href.replace(regExp, '')
 
@@ -57,6 +67,12 @@ export default class WebSurf extends BaseAdapter {
    * @param {string} display visible | hidden
    */
   checkElementIs (selector, display) {
+    const item = new Surfer(selector)
+
+    if (!item.length) {
+      return this.#done('Element not found')
+    }
+
     this.#focus(selector)
 
     const visible = display === 'visible'
@@ -71,27 +87,30 @@ export default class WebSurf extends BaseAdapter {
     }
 
     let valid = false
-    const item = new Surfer(selector).item
 
-    if (item) {
-      if (visible) {
-        valid = isVisible(item)
-      } else {
-        valid = !isVisible(item)
-      }
+    if (visible) {
+      valid = isVisible(item.item)
+    } else {
+      valid = !isVisible(item.item)
     }
 
     this.#checked(valid)
   }
 
   checkPageContains (selector, text) {
-    const body = new Surfer(selector)
+    const item = new Surfer(selector)
 
-    let contains = body.text().includes(text)
+    if (!item.length) {
+      return this.#done('Element not found')
+    }
+
+    this.#focus(selector)
+
+    let contains = item.text().includes(text)
 
     if (!contains) {
-      body.find('input, textarea, select').each(item => {
-        contains = `${(item.value || '')}`.includes(text)
+      item.find('input, textarea, select').each(elem => {
+        contains = `${(elem.value || '')}`.includes(text)
 
         if (contains) {
           return false
@@ -106,36 +125,61 @@ export default class WebSurf extends BaseAdapter {
    * @inheritdoc
    */
   checkTextContains (selector, text) {
+    const item = new Surfer(selector)
+
+    if (!item.length) {
+      return this.#done('Element not found')
+    }
+
     this.#focus(selector)
 
-    const item = new Surfer(selector).text() || ''
-    this.#checked(item.includes(text))
+    this.#checked((item.text() || '').includes(text))
   }
 
   /**
    * @inheritdoc
    */
   checkTextIs (selector, text) {
+    const item = new Surfer(selector)
+
+    if (!item.length) {
+      return this.#done('Element not found')
+    }
+
     this.#focus(selector)
-    this.#checked(new Surfer(selector).text() === text)
+
+    this.#checked(item.text() === text)
   }
 
   /**
    * @inheritdoc
    */
   checkValueContains (selector, text) {
+    const item = new Surfer(selector)
+
+    if (!item.length) {
+      return this.#done('Element not found')
+    }
+
     this.#focus(selector)
 
-    const item = `${new Surfer(selector).value() || ''}`
-    this.#checked(item.includes(text))
+    const value = `${item.value() || ''}`
+    this.#checked(value.includes(text))
   }
 
   /**
    * @inheritdoc
    */
   checkValueIs (selector, value) {
+    const item = new Surfer(selector)
+
+    if (!item.length) {
+      return this.#done('Element not found')
+    }
+
     this.#focus(selector)
-    this.#checked(new Surfer(selector).value() === value)
+
+    this.#checked(item.value() === value)
   }
 
   /**
@@ -143,44 +187,37 @@ export default class WebSurf extends BaseAdapter {
    */
   doClick (selector) {
     if (selector) {
+      const item = new Surfer(selector)
+
+      if (!item.length) {
+        return this.#done('Element not found')
+      }
+
       this.#focus(selector)
 
-      new Surfer(selector).click()
-      this.#done(true)
+      item.click()
+      this.#done()
     } else {
-      this.#done(false, 'Selector not provided')
+      this.#done('Selector not provided')
     }
   }
-
-  // /**
-  //  * @inheritdoc
-  //  */
-  // doGoBack () {
-  //   if (window.history) {
-  //     this.#done()
-  //     window.history.back()
-  //   } else {
-  //     this.#done(false, 'Cannot go back. History not supported.')
-  //   }
-  // }
 
   /**
    * @inheritdoc
    */
   doGoto (url) {
-    this.#done()
-
     setTimeout(() => {
       const urlWithoutHash = url.split('#')[0]
-      const locationWithHash = location.href.split('#')[0]
+      const locationWithoutHash = location.href.split('#')[0]
 
-      const joiner = url.includes('?') ? '&' : '?'
-
-      // disable assets caching
-      location.href = url + joiner + this.#cacheBreaker
-
-      if (urlWithoutHash === locationWithHash) {
+      // page uses hash routing
+      if (urlWithoutHash === locationWithoutHash) {
         location.reload()
+      } else {
+        const joiner = url.includes('?') ? '&' : '?'
+
+        // disable assets caching
+        location.href = url + joiner + this.#cacheBreaker
       }
     })
   }
@@ -189,7 +226,6 @@ export default class WebSurf extends BaseAdapter {
    * @inheritdoc
    */
   doRefresh () {
-    this.#done()
     location.reload()
   }
 
@@ -198,13 +234,17 @@ export default class WebSurf extends BaseAdapter {
    */
   doSelect (selector, value) {
     if (selector) {
-      this.#focus(selector)
-
       const item = new Surfer(selector)
+
+      if (!item.length) {
+        return this.#done('Element not found')
+      }
+
+      this.#focus(selector)
 
       item.value(value)
     } else {
-      this.#done(false, 'Selector not provided')
+      this.#done('Selector not provided')
     }
   }
 
@@ -213,12 +253,18 @@ export default class WebSurf extends BaseAdapter {
    */
   doSubmitForm (selector) {
     if (selector) {
+      const item = new Surfer(selector)
+
+      if (!item.length) {
+        return this.#done('Element not found')
+      }
+
       this.#focus(selector)
 
-      new Surfer(selector).item.submit()
-      this.#done(true)
+      item.item.submit()
+      this.#done()
     } else {
-      this.#done(false, 'Selector not provided')
+      this.#done('Selector not provided')
     }
   }
 
@@ -227,9 +273,13 @@ export default class WebSurf extends BaseAdapter {
    */
   doType (selector, str, speed = 100) {
     if (selector) {
-      this.#focus(selector)
-
       const item = new Surfer(selector)
+
+      if (!item.length) {
+        return this.#done('Element not found')
+      }
+
+      this.#focus(selector)
 
       item.value('')
 
@@ -244,13 +294,13 @@ export default class WebSurf extends BaseAdapter {
         } else {
           item.blur()
           item.dispatchEvent('change')
-          this.#done(true)
+          this.#done()
         }
       }
 
       type()
     } else {
-      this.#done(false, 'Selector not provided')
+      this.#done('Selector not provided')
     }
   }
 
@@ -260,53 +310,21 @@ export default class WebSurf extends BaseAdapter {
     return this
   }
 
-  // /**
-  //  * @inheritdoc
-  //  */
-  // doWait (milliseconds) {
-  //   if (milliseconds) {
-
-  //     setTimeout(() => this.#done(true), milliseconds)
-  //   } else {
-  //     this.#done(false, 'Wait period not provided')
-  //   }
-  // }
-
-  // /**
-  //  * @inheritdoc
-  //  */
-  // doWaitTillPageLoads () {
-  //   if (this.#isReloaded) {
-  //     this.#isReloaded = false
-  //     this.#done(true)
-  //   } else {
-  //     if (this.#waited >= this.#maxLoadWaitTime) {
-  //       this.#done(
-  //         false,
-  //         `No response after ${this.#maxLoadWaitTime / 1000} seconds`
-  //       )
-  //     }
-
-  //     setTimeout(() => this.doWaitTillPageLoads(), this.#waitPollTime)
-  //     this.#waited += this.#waitPollTime
-  //   }
-  // }
-
   #checked (status) {
     this.#blur()
 
     if (!status) {
-      return this.#done(false)
+      return this.#done('Check failed')
     }
 
-    this.#done(true)
+    this.#done()
   }
 
-  #done (status, errorMessage) {
+  #done (errorMessage) {
     this.#blur()
 
     this.#notify({
-      success: status,
+      success: !errorMessage,
       message: errorMessage
     })
   }
@@ -322,10 +340,6 @@ export default class WebSurf extends BaseAdapter {
     }
 
     const item = new Surfer(selector).item
-
-    if (!item) {
-      throw new Error(`Element not found`)
-    }
 
     const focusData = {
       backgroundColor: item.style.backgroundColor,

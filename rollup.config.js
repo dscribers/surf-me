@@ -23,10 +23,11 @@ export default {
   ],
   plugins: [
     resolve(),
-    commonjs(),
     babel({
-      exclude: 'node_modules/**' // only transpile our source code
+      exclude: 'node_modules/**', // only transpile our source code
+      plugins: ['@babel/plugin-proposal-class-properties', '@babel/plugin-proposal-private-methods'],
     }),
+    commonjs(),
     terser()
   ]
 }
