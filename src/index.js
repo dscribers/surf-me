@@ -1,4 +1,5 @@
 import WebSurf from './WebSurf'
+import { version } from '../package.json'
 
 // @todo: change * to https://app.testsuite.com
 const targetOrigin = '*'
@@ -29,6 +30,6 @@ if (window.parent !== window) {
 
   window.addEventListener('message', receivedCommand, false)
 
-  sendToParent({ name: 'ready' })
+  sendToParent({ name: 'ready', detail: { version } })
 
 }
