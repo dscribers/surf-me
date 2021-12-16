@@ -20,10 +20,24 @@ export default class Surfer {
       throw new Error('Second parameter must be an object')
     }
 
+    const createNonXpath = () => {
+      try {
+        this.#elem(selector, base || document, otherSelector)
+      } catch (e) {
+        // do nothing
+      }
+    }
+
     try {
-      this.#elem(getElementByXPath(selector, base || document), otherSelector)
+      const xpathElem = getElementByXPath(selector, base || document)
+
+      if (xpathElem) {
+        this.#elem(xpathElem, base || document, otherSelector)
+      } else {
+        createNonXpath()
+      }
     } catch (e) {
-      this.#elem(selector, base || document, otherSelector)
+      createNonXpath()
     }
   }
 
@@ -405,7 +419,7 @@ export default class Surfer {
     if (Array.isArray(selector)) {
       this.#items = selector
       this.selector = otherSelector
-    } else if (typeof selector === 'object') {
+    } else if (selector && typeof selector === 'object') {
       if (selector instanceof Surfer) {
         return Surfer
       }

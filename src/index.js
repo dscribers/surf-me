@@ -24,12 +24,12 @@ if (window.parent !== window) {
         $surfer[data.action](...data.params)
       }
     } catch (e) {
-      console.warn(e.message)
+      sendToParent({ name: 'actionDone', detail: { success: false, message: e.message } })
+      console.warn(e)
     }
   }
 
   window.addEventListener('message', receivedCommand, false)
 
   sendToParent({ name: 'ready', detail: { version } })
-
 }

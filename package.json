@@ -1,6 +1,6 @@
 {
   "name": "@dscribers/surf-me",
-  "version": "2.1.0",
+  "version": "2.1.2",
   "description": "TestSoothe JS SDK",
   "rollup": {
     "main": "dist/surf-me.js",
@@ -27,6 +27,7 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "build:watch": "rollup -cw"
+    "build:watch": "rollup -cw",
+    "prepublishOnly": "yarn build"
   }
 }
