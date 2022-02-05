@@ -1,4 +1,5 @@
 # Surf Me
+[![](https://data.jsdelivr.com/v1/package/npm/@dscribers/surf-me/badge)](https://www.jsdelivr.com/package/npm/@dscribers/surf-me)
 
 The in-browser auto-surf runner.
 

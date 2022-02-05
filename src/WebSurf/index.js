@@ -214,6 +214,7 @@ export default class WebSurf {
       this.#focus(selector)
 
       item.value(value)
+      this.#done()
     } else {
       this.#done('Selector not provided')
     }
