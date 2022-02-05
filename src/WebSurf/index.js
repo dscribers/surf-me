@@ -11,9 +11,6 @@ export default class WebSurf {
 
   #blur = () => { }
 
-  /**
-   * @inheritdoc
-   */
   checkAttrContains (selector, attr, text) {
     const item = new Surfer(selector)
 
@@ -26,9 +23,6 @@ export default class WebSurf {
     this.#checked((item.attr(attr) || '').includes(text))
   }
 
-  /**
-   * @inheritdoc
-   */
   checkAttrIs (selector, attr, val) {
     const item = new Surfer(selector)
 
@@ -41,17 +35,11 @@ export default class WebSurf {
     this.#checked(item.attr(attr) == val)
   }
 
-  /**
-   * @inheritdoc
-   */
   checkExists (selector) {
     this.#focus(selector)
     this.#checked(new Surfer(selector).length > 0)
   }
 
-  /**
-   * @inheritdoc
-   */
   checkIsOn (url) {
     const regExp = new RegExp(`(\\?|&)${this.#cacheBreakerWrapper}.*${this.#cacheBreakerWrapper}`)
     const cleanLocationHref = document.location.href.replace(regExp, '')
@@ -124,9 +112,6 @@ export default class WebSurf {
     this.#checked(contains)
   }
 
-  /**
-   * @inheritdoc
-   */
   checkTextContains (selector, text) {
     const item = new Surfer(selector)
 
@@ -139,9 +124,6 @@ export default class WebSurf {
     this.#checked((item.text() || '').includes(text))
   }
 
-  /**
-   * @inheritdoc
-   */
   checkTextIs (selector, text) {
     const item = new Surfer(selector)
 
@@ -154,9 +136,6 @@ export default class WebSurf {
     this.#checked(item.text() === text)
   }
 
-  /**
-   * @inheritdoc
-   */
   checkValueContains (selector, text) {
     const item = new Surfer(selector)
 
@@ -170,9 +149,6 @@ export default class WebSurf {
     this.#checked(value.includes(text))
   }
 
-  /**
-   * @inheritdoc
-   */
   checkValueIs (selector, value) {
     const item = new Surfer(selector)
 
@@ -185,9 +161,6 @@ export default class WebSurf {
     this.#checked(item.value() === value)
   }
 
-  /**
-   * @inheritdoc
-   */
   doClick (selector) {
     if (selector) {
       const item = new Surfer(selector)
@@ -205,9 +178,6 @@ export default class WebSurf {
     }
   }
 
-  /**
-   * @inheritdoc
-   */
   doGoto (url) {
     setTimeout(() => {
       const urlWithoutHash = url.split('#')[0]
@@ -225,17 +195,15 @@ export default class WebSurf {
     })
   }
 
-  /**
-   * @inheritdoc
-   */
   doRefresh () {
     location.reload()
   }
 
-  /**
-   * @inheritdoc
-   */
   doSelect (selector, value) {
+    this.doSet(selector, value)
+  }
+
+  doSet (selector, value) {
     if (selector) {
       const item = new Surfer(selector)
 
@@ -251,9 +219,6 @@ export default class WebSurf {
     }
   }
 
-  /**
-   * @inheritdoc
-   */
   doSubmitForm (selector) {
     if (selector) {
       const item = new Surfer(selector)
@@ -271,9 +236,6 @@ export default class WebSurf {
     }
   }
 
-  /**
-   * @inheritdoc
-   */
   doType (selector, str, speed = 100) {
     if (selector) {
       const item = new Surfer(selector)
@@ -332,11 +294,6 @@ export default class WebSurf {
     })
   }
 
-  /**
-   * Focuses on the current item
-   *
-   * @param {*} selector The selector of the target html element
-   */
   #focus (selector) {
     if (!selector) {
       throw new Error('Selector not provided')

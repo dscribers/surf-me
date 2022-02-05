@@ -1,6 +1,6 @@
 {
   "name": "@dscribers/surf-me",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "description": "TestSoothe JS SDK",
   "rollup": {
     "main": "dist/surf-me.js",
