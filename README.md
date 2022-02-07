@@ -1,7 +1,7 @@
 # Surf Me
 [![](https://data.jsdelivr.com/v1/package/npm/@dscribers/surf-me/badge)](https://www.jsdelivr.com/package/npm/@dscribers/surf-me)
 
-The in-browser auto-surf runner.
+The in-browser page runner.
 
 ## Usage
 
@@ -13,4 +13,4 @@ The in-browser auto-surf runner.
 ></script>
 ```
 
-2. Load the page from [TestSoothe](https://testsoothe.com).
+2. Follow the instructions of the parent app. For example, [TestSoothe](http://testsoothe.com).
