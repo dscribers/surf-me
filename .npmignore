@@ -2,6 +2,7 @@ node_modules
 src
 .dockerignore
 .git
+.github
 .gitignore
 docker-compose.yml
 Dockerfile
