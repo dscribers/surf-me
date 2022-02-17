@@ -1,6 +1,6 @@
 {
   "name": "@dscribers/surf-me",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "TestSoothe JS SDK",
   "rollup": {
     "main": "dist/surf-me.js",
@@ -28,6 +28,7 @@
   "scripts": {
     "build": "rollup -c",
     "build:watch": "rollup -cw",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "yarn build",
+    "postpublish": "sleep 5 && wget -q  https://purge.jsdelivr.net/npm/@dscribers/surf-me@latest"
   }
 }
