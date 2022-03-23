@@ -492,7 +492,7 @@ export default class WebSurf {
       )
 
       if (timesTried) {
-        this.message = `Element found after ${timesTried} seconds`
+        this.#defaultSuccessMessage = `Element found after ${timesTried} seconds`
       }
 
       return item
