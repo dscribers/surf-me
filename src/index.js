@@ -1,3 +1,4 @@
+import '@babel/polyfill'
 import WebSurf from './WebSurf'
 import { version } from '../package.json'
 
