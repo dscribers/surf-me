@@ -15,7 +15,7 @@ export default class WebSurf {
     this.#cacheBreaker = this.#cacheBreakerWrapper + Date.now() + this.#cacheBreakerWrapper
   }
 
-  async checkAttrContains (selector, attr, text) {
+  async checkAttrContains (selector, attr, text, tryOnce = false) {
     try {
       const item = await this.#getElem(selector)
 
@@ -27,7 +27,7 @@ export default class WebSurf {
         result = (item.attr(attr) || '').includes(text)
 
         return result
-      })
+      }, tryOnce)
 
       this.#checked(result)
     } catch (e) {
@@ -35,7 +35,7 @@ export default class WebSurf {
     }
   }
 
-  async checkAttrIs (selector, attr, val) {
+  async checkAttrIs (selector, attr, val, tryOnce = false) {
     try {
       const item = await this.#getElem(selector)
 
@@ -47,7 +47,7 @@ export default class WebSurf {
         result = item.attr(attr) == val
 
         return result
-      })
+      }, tryOnce)
 
       this.#checked(result)
     } catch (e) {
@@ -67,7 +67,7 @@ export default class WebSurf {
     }
   }
 
-  async checkIsOn (url) {
+  async checkIsOn (url, tryOnce = false) {
     try {
       let result = false
 
@@ -77,7 +77,7 @@ export default class WebSurf {
         result = document.location.href.replace(regExp, '') === url
 
         return result
-      })
+      }, tryOnce)
 
       this.#checked(result)
     } catch (e) {
@@ -91,7 +91,7 @@ export default class WebSurf {
    * @param {string} selector The selector of the target html element
    * @param {string} display visible | hidden
    */
-  async checkElementIs (selector, display) {
+  async checkElementIs (selector, display, tryOnce = false) {
     try {
       const item = await this.#getElem(selector)
 
@@ -118,7 +118,7 @@ export default class WebSurf {
         }
 
         return result
-      })
+      }, tryOnce)
 
 
       this.#checked(result)
@@ -127,7 +127,7 @@ export default class WebSurf {
     }
   }
 
-  async checkPageContains (selector, text) {
+  async checkPageContains (selector, text, tryOnce = false) {
     try {
       const item = await this.#getElem(selector)
 
@@ -149,7 +149,7 @@ export default class WebSurf {
         }
 
         return result
-      })
+      }, tryOnce)
 
       if (result) {
         return this.checkElementIs(selector, 'visible')
@@ -181,7 +181,7 @@ export default class WebSurf {
     check()
   }
 
-  async checkTextContains (selector, text) {
+  async checkTextContains (selector, text, tryOnce = false) {
     try {
       const item = await this.#getElem(selector)
 
@@ -193,7 +193,7 @@ export default class WebSurf {
         result = (item.text() || '').includes(text)
 
         return result
-      })
+      }, tryOnce)
 
       this.#checked(result)
     } catch (e) {
@@ -201,7 +201,7 @@ export default class WebSurf {
     }
   }
 
-  async checkTextIs (selector, text) {
+  async checkTextIs (selector, text, tryOnce = false) {
     try {
       const item = await this.#getElem(selector)
 
@@ -213,7 +213,7 @@ export default class WebSurf {
         result = item.text() === text
 
         return result
-      })
+      }, tryOnce)
 
       this.#checked(result)
     } catch (e) {
@@ -221,7 +221,7 @@ export default class WebSurf {
     }
   }
 
-  async checkValueContains (selector, text) {
+  async checkValueContains (selector, text, tryOnce = false) {
     try {
       const item = await this.#getElem(selector)
 
@@ -234,7 +234,7 @@ export default class WebSurf {
         result = value.includes(text)
 
         return result
-      })
+      }, tryOnce)
 
       this.#checked(result)
     } catch (e) {
@@ -242,7 +242,7 @@ export default class WebSurf {
     }
   }
 
-  async checkValueIs (selector, value) {
+  async checkValueIs (selector, value, tryOnce = false) {
     try {
       const item = await this.#getElem(selector)
 
@@ -254,7 +254,7 @@ export default class WebSurf {
         result = item.value() === value
 
         return result
-      })
+      }, tryOnce)
 
       this.#checked(result)
     } catch (e) {
@@ -401,12 +401,12 @@ export default class WebSurf {
     return this
   }
 
-  #try (callback, times, delay) {
+  #try (func, times, delay) {
     return new Promise((resolve, reject) => {
-      let count = 0
+      let count = 1
 
       const call = () => {
-        if (callback()) {
+        if (func()) {
           resolve(count)
         } else if (count === times) {
           reject()
@@ -421,18 +421,18 @@ export default class WebSurf {
     })
   }
 
-  async #tryCheck (callback) {
-    return this.#tryWithConfig(callback, timesTried => `Passed after ${timesTried} seconds`)
-  }
+  async #tryCheck (func, tryOnce = false) {
+    try {
+      const timesTried = await this.#try(func, tryOnce ? 1 : this.#config.maxElemDelayCount, this.#config.elemDelay)
 
-  async #tryWithConfig (callback, messageFn = () => null) {
-    const timesTried = await this.#try(callback, this.#config.maxElemDelayCount, this.#config.elemDelay)
+      if (timesTried) {
+        this.#defaultSuccessMessage = `Passed after ${timesTried} seconds`
+      }
 
-    if (timesTried) {
-      this.#defaultSuccessMessage = messageFn(timesTried)
+      return timesTried
+    } catch (e) {
+      throw e
     }
-
-    return timesTried
   }
 
   #checked (status) {
@@ -477,7 +477,7 @@ export default class WebSurf {
     item.focus({ preventScroll: true })
   }
 
-  async #getElem (selector) {
+  async #getElem (selector, tryOnce = false) {
     let item
 
     try {
@@ -487,7 +487,7 @@ export default class WebSurf {
 
           return !!item.length
         },
-        this.#config.maxElemDelayCount,
+        tryOnce ? 1 : this.#config.maxElemDelayCount,
         this.#config.elemDelay
       )
 
