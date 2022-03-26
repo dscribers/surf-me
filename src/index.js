@@ -32,7 +32,7 @@ window.SurfMe = (targetOrigin, config = {}) => {
 
     try {
       if ($surfer[data.action]) {
-        $surfer[data.action](...data.params)
+        $surfer[data.action](...(data.params || []))
       }
     } catch (e) {
       sendToParent({ name: 'actionDone', detail: { success: false, message: e.message } })
