@@ -20,6 +20,36 @@ export default class Surfer {
       throw new Error('Second parameter must be an object')
     }
 
+    const escapeXpathString = (str) => {
+      const splitedQuotes = str.replace(/'/g, `', "'", '`)
+
+      return `concat('${splitedQuotes}', '')`
+    }
+
+    const createDefaultXpath = () => {
+      try {
+        const xpathElem = getElementByXPath(selector, base || document)
+
+        if (xpathElem) {
+          this.#elem(xpathElem, base || document, otherSelector)
+        }
+      } catch (e) {
+        // do nothing
+      }
+    }
+
+    const createTextXpath = () => {
+      try {
+        const xpathElem = getElementByXPath(`//*[contains(text(), ${escapeXpathString(selector)})]`, base || document)
+
+        if (xpathElem) {
+          this.#elem(xpathElem, base || document, otherSelector)
+        }
+      } catch (e) {
+        // do nothing
+      }
+    }
+
     const createNonXpath = () => {
       try {
         this.#elem(selector, base || document, otherSelector)
@@ -29,15 +59,21 @@ export default class Surfer {
     }
 
     try {
-      const xpathElem = getElementByXPath(selector, base || document)
+      createDefaultXpath()
 
-      if (xpathElem) {
-        this.#elem(xpathElem, base || document, otherSelector)
-      } else {
+      if (!this.length) {
         createNonXpath()
+
+        if (!this.length) {
+          createTextXpath()
+        }
       }
     } catch (e) {
       createNonXpath()
+
+      if (!this.length) {
+        createTextXpath()
+      }
     }
   }
 
