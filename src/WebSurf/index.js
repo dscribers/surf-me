@@ -1,4 +1,5 @@
 import Surfer from './Surfer'
+import html2canvas from 'html2canvas'
 
 export default class WebSurf {
   #blur = () => { }
@@ -75,6 +76,25 @@ export default class WebSurf {
         const regExp = new RegExp(`(\\?|&)${this.#cacheBreakerWrapper}.*${this.#cacheBreakerWrapper}`)
 
         result = document.location.href.replace(regExp, '') === url
+
+        if (!result && url.includes('*')) {
+          result = true
+
+          const urlParts = url.split('*')
+          let href = document.location.href
+
+          while (result && urlParts.length) {
+            const part = urlParts.shift()
+
+            result = href.includes(part)
+
+            if (result) {
+              const index = href.indexOf(part)
+
+              href = href.substring(index + part.length)
+            }
+          }
+        }
 
         return result
       }, tryOnce)
@@ -314,7 +334,7 @@ export default class WebSurf {
 
       const timesTried = this.#try(() => !!item.find(`option[value="${value}"]`).length, 5, 2000)
 
-      if (timesTried) {
+      if (timesTried > 1) {
         if (this.#defaultSuccessMessage) {
           this.#defaultSuccessMessage += ` and then found option after ${timesTried} seconds`
         } else {
@@ -401,38 +421,10 @@ export default class WebSurf {
     return this
   }
 
-  #try (func, times, delay) {
-    return new Promise((resolve, reject) => {
-      let count = 1
+  async #captureScreen () {
+    const canvas = await html2canvas(document.body)
 
-      const call = () => {
-        if (func()) {
-          resolve(count)
-        } else if (count === times) {
-          reject()
-        } else {
-          setTimeout(() => call(), delay)
-        }
-
-        count++
-      }
-
-      call()
-    })
-  }
-
-  async #tryCheck (func, tryOnce = false) {
-    try {
-      const timesTried = await this.#try(func, tryOnce ? 1 : this.#config.maxElemDelayCount, this.#config.elemDelay)
-
-      if (timesTried) {
-        this.#defaultSuccessMessage = `Passed after ${timesTried} seconds`
-      }
-
-      return timesTried
-    } catch (e) {
-      throw e
-    }
+    return canvas.toDataURL("image/png");
   }
 
   #checked (status) {
@@ -445,14 +437,16 @@ export default class WebSurf {
     this.#done()
   }
 
-  #done (message, success = true) {
+  async #done (message, success = true) {
     this.#blur()
 
     if (!message && success && this.#defaultSuccessMessage) {
       message = this.#defaultSuccessMessage
     }
 
-    this.#notify({ success, message })
+    const screenshot = await this.#captureScreen()
+
+    this.#notify({ success, message, screenshot })
     this.#defaultSuccessMessage = null
   }
 
@@ -491,13 +485,43 @@ export default class WebSurf {
         this.#config.elemDelay
       )
 
-      if (timesTried) {
-        this.#defaultSuccessMessage = `Element found after ${timesTried} seconds`
+      if (timesTried > 1 && !tryOnce) {
+        this.#defaultSuccessMessage = `Element found after ${timesTried} second`
       }
 
       return item
     } catch (e) {
       throw new Error('Element not found')
     }
+  }
+
+  #try (func, times, delay) {
+    return new Promise((resolve, reject) => {
+      let count = 1
+
+      const call = () => {
+        if (func()) {
+          resolve(count)
+        } else if (count === times) {
+          reject()
+        } else {
+          setTimeout(() => call(), delay)
+        }
+
+        count++
+      }
+
+      call()
+    })
+  }
+
+  async #tryCheck (func, tryOnce = false) {
+    const timesTried = await this.#try(func, tryOnce ? 1 : this.#config.maxElemDelayCount, this.#config.elemDelay)
+
+    if (timesTried > 1 && !tryOnce) {
+      this.#defaultSuccessMessage = `Passed after ${timesTried} second`
+    }
+
+    return timesTried
   }
 }

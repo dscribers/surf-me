@@ -19,9 +19,7 @@ window.SurfMe = (targetOrigin, config = {}) => {
   }
 
   const $surfer = new WebSurf()
-    .whenDone(({ success, message }) => {
-      sendToParent({ name: 'actionDone', detail: { success, message } })
-    })
+    .whenDone(detail => sendToParent({ name: 'actionDone', detail }))
 
   const sendToParent = (data) => window.parent.postMessage(data, targetOrigin)
 
@@ -35,8 +33,8 @@ window.SurfMe = (targetOrigin, config = {}) => {
         $surfer[data.action](...(data.params || []))
       }
     } catch (e) {
-      sendToParent({ name: 'actionDone', detail: { success: false, message: e.message } })
       console.warn(e)
+      sendToParent({ name: 'actionDone', detail: { success: false, message: e.message } })
     }
   }
 
