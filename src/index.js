@@ -4,7 +4,7 @@ import { version } from '../package.json'
 
 let configured = false
 
-window.SurfMe = (targetOrigin, config = {}) => {
+window.SurfMe = async (targetOrigin, config = {}) => {
   if (typeof config !== 'object') {
     throw new Error('Parameter must be an object')
   }
@@ -23,7 +23,7 @@ window.SurfMe = (targetOrigin, config = {}) => {
 
   const sendToParent = (data) => window.parent.postMessage(data, targetOrigin)
 
-  function receivedCommand ({ data = {}, origin }) {
+  async function receivedCommand ({ data = {}, origin }) {
     if (targetOrigin !== '*' && origin !== targetOrigin) {
       return
     }
@@ -34,13 +34,13 @@ window.SurfMe = (targetOrigin, config = {}) => {
       }
     } catch (e) {
       console.warn(e)
-      sendToParent({ name: 'actionDone', detail: { success: false, message: e.message } })
+      sendToParent({ name: 'actionDone', detail: { success: false, message: e.message, screenshot: await $surfer.captureScreen() } })
     }
   }
 
   window.addEventListener('message', receivedCommand, false)
 
-  sendToParent({ name: 'ready', detail: { ...config, version } })
+  sendToParent({ name: 'ready', detail: { ...config, version, screenshot: await $surfer.captureScreen() } })
 
   configured = true
 }

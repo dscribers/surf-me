@@ -421,7 +421,7 @@ export default class WebSurf {
     return this
   }
 
-  async #captureScreen () {
+  async captureScreen () {
     const canvas = await html2canvas(document.body)
 
     return canvas.toDataURL("image/png");
@@ -444,7 +444,7 @@ export default class WebSurf {
       message = this.#defaultSuccessMessage
     }
 
-    const screenshot = await this.#captureScreen()
+    const screenshot = await this.captureScreen()
 
     this.#notify({ success, message, screenshot })
     this.#defaultSuccessMessage = null
