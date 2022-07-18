@@ -424,7 +424,24 @@ export default class WebSurf {
   async captureScreen () {
     const canvas = await html2canvas(document.body)
 
-    return canvas.toDataURL("image/png");
+    return canvas.toDataURL("image/png")
+  }
+
+  clearCookies () {
+    const regEx = /(?<=^|;).+?(?=\=|;|$)/g
+
+    document.cookie.replace(
+      regEx,
+      name => {
+        const hostRegEx = /\.(?=[^\.]+\.)/
+        const hostParts = location.hostname.split(hostRegEx)
+
+        return hostParts.reduceRight((acc, val, i, arr) => {
+          return i ? arr[i] = '.' + val + acc : (arr[i] = '', arr)
+        }, '')
+          .map(domain => document.cookie = `${name}=;max-age=0;path=/;domain=${domain}`)
+      }
+    )
   }
 
   #checked (status) {
