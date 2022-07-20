@@ -1,5 +1,4 @@
 # for local development
-version: "3.7"
 services:
   surf-me:
     image: dscribe/basic-node
@@ -7,7 +6,7 @@ services:
       context: .
       target: base
     volumes:
-      - ".:/app"
-    user: 1000:1000
+      - .:/app
+    user: "root"
     tty: true
     stdin_open: true
